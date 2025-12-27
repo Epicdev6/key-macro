@@ -1,0 +1,24 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compile with MSVC
+        run: |
+          cl /EHsc macro.cpp user32.lib
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: macro-exe
+          path: main.exe
